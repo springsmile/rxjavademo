@@ -1,4 +1,4 @@
-package demo.rxjavademo;
+package demo.rxjavademo.subject;
 
 import rx.Observer;
 import rx.subjects.BehaviorSubject;

@@ -1,17 +1,14 @@
-package demo.rxjavademo;
+package demo.rxjavademo.subject;
 
-import rx.Observable;
 import rx.Observer;
-import rx.observers.EmptyObserver;
-import rx.observers.TestSubscriber;
-import rx.subjects.AsyncSubject;
-/**
- * Created by lidong on 2016/7/19.
- */
-public class RXAsyncSubject {
-    public static void main(String[] args) {
-        AsyncSubject<String> subject = AsyncSubject.create();
+import rx.subjects.ReplaySubject;
 
+/**
+ * Created by lidong on 2016/7/20.
+ */
+public class RXReplaySubject {
+    public static void main(String[] args) {
+        ReplaySubject<String> subject = ReplaySubject.create();
         Observer ob=new Observer(){
             @Override
             public void onCompleted() {
@@ -28,12 +25,18 @@ public class RXAsyncSubject {
                 System.out.println("onNext"+o);
             }
         };
+        Observer<String> o1 = ob;
+        subject.subscribe(o1);//onNextone   onNexttwo  onNextthree  Throwable
 
         subject.onNext("one");
         subject.onNext("two");
-//        subject.onError(new Throwable());
         subject.onNext("three");
-        subject.onCompleted();//注释掉 就不会回调相关函数 没有任何打印
-        subject.subscribe(ob);
+        subject.onError(new Throwable());
+        subject.onNext("four");
+        subject.onCompleted();
+
+
+        Observer<String> o2 = ob;
+        subject.subscribe(o2);//onNextone   onNexttwo  onNextthree  Throwable
     }
 }
